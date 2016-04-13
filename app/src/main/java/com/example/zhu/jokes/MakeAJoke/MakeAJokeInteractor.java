@@ -6,6 +6,7 @@ package com.example.zhu.jokes.MakeAJoke;
 public interface MakeAJokeInteractor {
     interface OnGetAJokeFinishedListener {
         void onFinished(String joke);
+        void onError(String errorMsg);
     }
     void getAJoke(OnGetAJokeFinishedListener listener);
 }

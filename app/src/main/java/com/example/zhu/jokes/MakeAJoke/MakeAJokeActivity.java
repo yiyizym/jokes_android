@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zhu.jokes.R;
 
@@ -51,5 +52,9 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
     @Override
     public void onClick(View v){
         presenter.onRefreshBtnClick();
+    }
+    @Override
+    public void showErrorMsg(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

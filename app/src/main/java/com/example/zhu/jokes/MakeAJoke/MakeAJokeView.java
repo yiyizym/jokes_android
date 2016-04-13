@@ -7,4 +7,5 @@ public interface MakeAJokeView {
     void setJoke(String joke);
     void showProgress();
     void hideProgress();
+    void showErrorMsg(String msg);
 }

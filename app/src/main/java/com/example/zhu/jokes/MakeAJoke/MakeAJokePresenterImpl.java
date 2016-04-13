@@ -1,5 +1,7 @@
 package com.example.zhu.jokes.MakeAJoke;
 
+import android.widget.Toast;
+
 /**
  * Created by zhu on 16/4/12.
  */
@@ -27,6 +29,12 @@ public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInte
         if (makeAJokeView != null){
             makeAJokeView.setJoke(joke);
             makeAJokeView.hideProgress();
+        }
+    }
+    @Override
+    public void onError(String msg){
+        if (makeAJokeView != null){
+            makeAJokeView.showErrorMsg(msg);
         }
     }
     @Override
