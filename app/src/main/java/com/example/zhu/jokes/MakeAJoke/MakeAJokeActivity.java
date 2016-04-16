@@ -57,4 +57,22 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
     public void showErrorMsg(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        presenter.saveState(outState);
+        TextView textView = (TextView) findViewById(R.id.joke_text);
+        CharSequence text = textView.getText();
+        outState.putCharSequence("savedText", text);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState){
+        super.onRestoreInstanceState(savedState);
+        presenter.restoreState(savedState);
+        TextView textView = (TextView) findViewById(R.id.joke_text);
+        CharSequence text = savedState.getCharSequence("savedText");
+        textView.setText(text);
+    }
 }

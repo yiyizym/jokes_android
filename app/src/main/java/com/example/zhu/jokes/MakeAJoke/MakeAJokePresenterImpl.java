@@ -1,5 +1,6 @@
 package com.example.zhu.jokes.MakeAJoke;
 
+import android.os.Bundle;
 import android.widget.Toast;
 
 /**
@@ -34,11 +35,23 @@ public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInte
     @Override
     public void onError(String msg){
         if (makeAJokeView != null){
+            makeAJokeView.hideProgress();
             makeAJokeView.showErrorMsg(msg);
         }
     }
     @Override
     public void onRefreshBtnClick(){
+        makeAJokeView.showProgress();
         makeAJokeInteractor.getAJoke(this);
+    }
+
+    @Override
+    public void saveState(Bundle outState){
+        makeAJokeInteractor.saveState(outState);
+    }
+
+    @Override
+    public void restoreState(Bundle savedState){
+        makeAJokeInteractor.restoreState(savedState);
     }
 }
