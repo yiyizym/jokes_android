@@ -24,8 +24,8 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     private String TAG = MakeAJokeInteractorImpl.class.getSimpleName();
     private String tag_joke_req = "joke_req";
     private String host = "192.168.1.100:8080";//"112.74.194.217:8080"
-    private Integer pageNum = 1;
-    private Integer itemsPerPage = 10;
+    private Integer pageNum = 0;
+    private Integer itemsPerPage = 5;
     private Integer maxPageNum = 0;
     private ArrayList<Joke> jokes = new ArrayList<>();
     @Override
@@ -69,9 +69,16 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
                         Integer totalCount = jsonObject.getInt("total_count");
                         Log.d("DEBUG", "totalCount :" + totalCount);
                         maxPageNum = (int) Math.ceil((double)totalCount / itemsPerPage);
-                        pageNum++;
-                        pageNum = pageNum % maxPageNum;
                         Log.d(DEBUG, "maxPageNum :" + maxPageNum);
+
+                        if (pageNum == 0){
+                            pageNum = jsonObject.getInt("page_num");
+                        }
+                        pageNum++;
+                        pageNum = pageNum % (maxPageNum + 1);
+                        if (pageNum == 0){
+                            pageNum++;
+                        }
                         Log.d(DEBUG, "pageNum :" + pageNum);
 
                         JSONArray jsonArray = jsonObject.getJSONArray("jokes");
