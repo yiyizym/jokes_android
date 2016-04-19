@@ -1,7 +1,6 @@
 package com.example.zhu.jokes.MakeAJoke;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 /**
  * Created by zhu on 16/4/12.

@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.zhu.jokes.Configuration;
 import com.example.zhu.jokes.app.AppController;
 import com.example.zhu.jokes.model.Joke;
 
@@ -23,7 +24,6 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     private final String DEBUG = "DEBUG";
     private String TAG = MakeAJokeInteractorImpl.class.getSimpleName();
     private String tag_joke_req = "joke_req";
-    private String host = "192.168.1.100:8080";//"112.74.194.217:8080"
     private Integer pageNum = 0;
     private Integer itemsPerPage = 5;
     private Integer maxPageNum = 0;
@@ -56,7 +56,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     }
 
     private void getAJokeFromBackend(final OnGetAJokeFinishedListener listener){
-        String uri = String.format("http://" +host+ "/jokes/get_paginate_joke.json?page_num=%1$s&items_per_page=%2$s",
+        String uri = String.format("http://" + Configuration.HOST_URL+ "/jokes/get_paginate_joke.json?page_num=%1$s&items_per_page=%2$s",
                 pageNum,
                 itemsPerPage);
         Log.d(DEBUG, "uri :" + uri);
