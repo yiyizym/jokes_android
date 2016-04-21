@@ -5,6 +5,7 @@ package com.example.zhu.jokes.MakeAJoke;
  */
 public interface MakeAJokeView {
     void setJoke(String joke);
+    String getJoke();
     void showProgress();
     void hideProgress();
     void showErrorMsg(String msg);

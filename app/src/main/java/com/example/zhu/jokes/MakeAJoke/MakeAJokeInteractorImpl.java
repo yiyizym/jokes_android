@@ -1,5 +1,6 @@
 package com.example.zhu.jokes.MakeAJoke;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,11 +11,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.zhu.jokes.Configuration;
 import com.example.zhu.jokes.app.AppController;
 import com.example.zhu.jokes.model.Joke;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +30,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     private String tag_joke_req = "joke_req";
     private Integer pageNum = 0;
     private Integer itemsPerPage = 5;
-    private Integer maxPageNum = 0;
+    private Integer maxPageNum = 10;
     private ArrayList<Joke> jokes = new ArrayList<>();
     @Override
     public void getAJoke(final OnGetAJokeFinishedListener listener){
@@ -40,19 +44,35 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     }
 
     @Override
-    public void saveState(Bundle outState){
-        Log.d(DEBUG, "saveState");
-        outState.putInt("pageNum", pageNum);
-        outState.putInt("maxPageNum", maxPageNum);
-        outState.putParcelableArrayList("jokes", jokes);
+    public void saveData(SharedPreferences data){
+        Gson gson = new Gson();
+        String jsonText = gson.toJson(jokes, getJokeType());
+        SharedPreferences.Editor editor = data.edit();
+        editor.putInt("pageNum", pageNum);
+        editor.putInt("maxPageNum", maxPageNum);
+        editor.putString("jokes", jsonText);
+        editor.commit();
+        Log.d(DEBUG, "saveData");
     }
 
     @Override
-    public void restoreState(Bundle savedState){
-        pageNum = savedState.getInt("pageNum");
-        maxPageNum = savedState.getInt("maxPageNum");
-        jokes = savedState.getParcelableArrayList("jokes");
-        Log.d(DEBUG, "restoreState, pageNum: " + pageNum.toString() + " maxPageNum: " + maxPageNum.toString());
+    public void restoreData(SharedPreferences data){
+        Gson gson = new Gson();
+        pageNum = data.getInt("pageNum", 0);
+        maxPageNum = data.getInt("maxPageNum", 10);
+        String jsonText = data.getString("jokes", "");
+        if (jsonText.isEmpty()){
+            jokes = gson.fromJson(jsonText, getJokeType());
+        } else {
+            jokes = new ArrayList<>();
+        }
+        Log.d(DEBUG, "restoreData");
+    }
+
+    //see https://github.com/google/gson/blob/master/UserGuide.md#serializing-and-deserializing-generic-types
+    private Type getJokeType(){
+        Type jokeType = new TypeToken<ArrayList<Joke>>() {}.getType();
+        return jokeType;
     }
 
     private void getAJokeFromBackend(final OnGetAJokeFinishedListener listener){

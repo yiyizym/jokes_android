@@ -1,7 +1,9 @@
 package com.example.zhu.jokes.MakeAJoke;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
     private ProgressBar progressBar;
     private TextView jokeText;
     private MakeAJokePresenter presenter;
+    private SharedPreferences data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +26,12 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
         setContentView(R.layout.activity_make_a_joke);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         jokeText = (TextView) findViewById(R.id.joke_text);
+        data = getPreferences(0);
         findViewById(R.id.refresh_btn).setOnClickListener(this);
 
+
         presenter = new MakeAJokePresenterImpl(this);
+        presenter.restoreData(data);
     }
 
     @Override
@@ -34,9 +40,20 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
     }
 
     @Override
+    public String getJoke(){
+        return jokeText.getText().toString();
+    }
+
+    @Override
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        presenter.saveData(data);
     }
 
     @Override
@@ -58,21 +75,4 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-        presenter.saveState(outState);
-        TextView textView = (TextView) findViewById(R.id.joke_text);
-        CharSequence text = textView.getText();
-        outState.putCharSequence("savedText", text);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedState){
-        super.onRestoreInstanceState(savedState);
-        presenter.restoreState(savedState);
-        TextView textView = (TextView) findViewById(R.id.joke_text);
-        CharSequence text = savedState.getCharSequence("savedText");
-        textView.setText(text);
-    }
 }

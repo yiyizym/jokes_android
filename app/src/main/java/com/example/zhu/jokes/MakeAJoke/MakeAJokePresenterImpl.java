@@ -1,6 +1,6 @@
 package com.example.zhu.jokes.MakeAJoke;
 
-import android.os.Bundle;
+import android.content.SharedPreferences;
 
 /**
  * Created by zhu on 16/4/12.
@@ -44,13 +44,18 @@ public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInte
         makeAJokeInteractor.getAJoke(this);
     }
 
+
     @Override
-    public void saveState(Bundle outState){
-        makeAJokeInteractor.saveState(outState);
+    public void saveData(SharedPreferences data){
+        SharedPreferences.Editor editor = data.edit();
+        editor.putString("jokeText", makeAJokeView.getJoke());
+        editor.commit();
+        makeAJokeInteractor.saveData(data);
     }
 
     @Override
-    public void restoreState(Bundle savedState){
-        makeAJokeInteractor.restoreState(savedState);
+    public void restoreData(SharedPreferences data){
+        makeAJokeView.setJoke(data.getString("jokeText",""));
+        makeAJokeInteractor.restoreData(data);
     }
 }
