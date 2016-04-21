@@ -14,7 +14,7 @@
         android:textSize="20sp"/>
     <Button
         android:id="@+id/refresh_btn"
-        android:text="刷新"
+        android:text="再笑一个"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_centerHorizontal="true"

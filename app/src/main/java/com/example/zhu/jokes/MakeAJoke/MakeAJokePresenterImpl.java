@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInteractor.OnGetAJokeFinishedListener {
     private MakeAJokeView makeAJokeView;
     private MakeAJokeInteractor makeAJokeInteractor;
+    private String DEFAULT_TEXT = "请点一下 再笑一个";
 
     public MakeAJokePresenterImpl(MakeAJokeView makeAJokeView){
         this.makeAJokeView = makeAJokeView;
@@ -55,7 +56,7 @@ public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInte
 
     @Override
     public void restoreData(SharedPreferences data){
-        makeAJokeView.setJoke(data.getString("jokeText",""));
+        makeAJokeView.setJoke(data.getString("jokeText",DEFAULT_TEXT));
         makeAJokeInteractor.restoreData(data);
     }
 }
