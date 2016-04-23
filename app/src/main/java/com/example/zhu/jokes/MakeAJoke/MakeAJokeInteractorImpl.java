@@ -61,7 +61,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
         pageNum = data.getInt("pageNum", 0);
         maxPageNum = data.getInt("maxPageNum", 10);
         String jsonText = data.getString("jokes", "");
-        if (jsonText.isEmpty()){
+        if (!jsonText.isEmpty()){
             jokes = gson.fromJson(jsonText, getJokeType());
         } else {
             jokes = new ArrayList<>();
