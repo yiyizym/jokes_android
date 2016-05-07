@@ -10,10 +10,11 @@ public class MakeAJokePresenterImpl implements MakeAJokePresenter, MakeAJokeInte
     private MakeAJokeInteractor makeAJokeInteractor;
     private String DEFAULT_TEXT = "请点一下 再笑一个";
 
-    public MakeAJokePresenterImpl(MakeAJokeView makeAJokeView){
+    public MakeAJokePresenterImpl(MakeAJokeView makeAJokeView, MakeAJokeInteractorFactory makeAJokeInteractorFactory){
         this.makeAJokeView = makeAJokeView;
-        makeAJokeInteractor = new MakeAJokeInteractorImpl();
+        this.makeAJokeInteractor = makeAJokeInteractorFactory.createMakeAJokeInteractor();
     }
+
     @Override
     public void onResume(){
         if (makeAJokeView != null){

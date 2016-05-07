@@ -3,7 +3,6 @@ package com.example.zhu.jokes.MakeAJoke;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,7 +29,7 @@ public class MakeAJokeActivity extends Activity implements MakeAJokeView, View.O
         findViewById(R.id.refresh_btn).setOnClickListener(this);
 
 
-        presenter = new MakeAJokePresenterImpl(this);
+        presenter = new MakeAJokePresenterImpl(this, new MakeAJokeInteractorFactoryImpl());
         presenter.restoreData(data);
     }
 

@@ -1,7 +1,6 @@
 package com.example.zhu.jokes.MakeAJoke;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -79,7 +78,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
         String uri = String.format("http://" + Configuration.HOST_URL+ "/jokes/get_paginate_joke.json?page_num=%1$s&items_per_page=%2$s",
                 pageNum,
                 itemsPerPage);
-        Log.d(DEBUG, "uri :" + uri);
+//        Log.d(DEBUG, "uri :" + uri);
         JsonObjectRequest jokesReq = new JsonObjectRequest(Request.Method.GET, uri, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
@@ -87,9 +86,9 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
                     if (jsonObject.getInt("return_code") == 0) {
 
                         Integer totalCount = jsonObject.getInt("total_count");
-                        Log.d("DEBUG", "totalCount :" + totalCount);
+//                        Log.d("DEBUG", "totalCount :" + totalCount);
                         maxPageNum = (int) Math.ceil((double)totalCount / itemsPerPage);
-                        Log.d(DEBUG, "maxPageNum :" + maxPageNum);
+//                        Log.d(DEBUG, "maxPageNum :" + maxPageNum);
 
                         if (pageNum == 0){
                             pageNum = jsonObject.getInt("page_num");
@@ -99,10 +98,10 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
                         if (pageNum == 0){
                             pageNum++;
                         }
-                        Log.d(DEBUG, "pageNum :" + pageNum);
+//                        Log.d(DEBUG, "pageNum :" + pageNum);
 
                         JSONArray jsonArray = jsonObject.getJSONArray("jokes");
-                        Log.d(DEBUG, "jsonArray: " + jsonArray.toString());
+//                        Log.d(DEBUG, "jsonArray: " + jsonArray.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             String content = obj.getString("content");
@@ -123,7 +122,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, volleyError.getMessage());
+//                Log.d(TAG, volleyError.getMessage());
                 listener.onError(volleyError.getMessage());
             }
         });
@@ -133,7 +132,7 @@ public class MakeAJokeInteractorImpl implements MakeAJokeInteractor {
     private void getAJokeFromLocal(final OnGetAJokeFinishedListener listener){
         Joke jokeToReturn;
         jokeToReturn = jokes.remove(jokes.size()-1);
-        Log.d(TAG, jokeToReturn.getContent());
+//        Log.d(TAG, jokeToReturn.getContent());
         listener.onFinished(jokeToReturn.getContent());
     }
 }
